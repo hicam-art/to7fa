@@ -3,6 +3,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تطبيق متقدم لتخطيط قص الخشب مع تحكم يدوي</title>
     <style>
         :root {
@@ -15,17 +16,18 @@
         body {
             font-family: 'Tahoma', sans-serif;
             direction: rtl;
-            padding: 20px;
+            padding: 10px;
             background: #868484;
             line-height: 1.6;
             user-select: none;
+            font-size: clamp(14px, 2vw, 16px);
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 95%;
             margin: 0 auto;
             background: rgba(51, 44, 44, 0.807);
-            padding: 20px;
+            padding: 15px;
             border-radius: 8px;
             box-shadow: 0 0 15px rgba(0,0,0,0.1);
         }
@@ -33,91 +35,111 @@
         h1, h2, h3 {
             color: var(--primary-color);
             text-align: center;
+            margin: 0.5em 0;
+        }
+        
+        h1 {
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+        }
+        
+        h2 {
+            font-size: clamp(1rem, 3vw, 1.4rem);
+        }
+        
+        h3 {
+            font-size: clamp(0.9rem, 2.5vw, 1.2rem);
         }
         
         .control-panel {
-             background: #868484;
-            padding: 20px;
+            background: #868484;
+            padding: 15px;
             border-radius: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             border: 1px solid #ddd;
         }
         
         .input-group {
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
             flex-wrap: wrap;
+            gap: 10px;
         }
         
         label {
-            width: 150px;
+            min-width: 100px;
             font-weight: bold;
-            margin-left: 10px;
-          
+            margin-left: 5px;
         }
         
         input[type="number"] {
-            padding: 8px 12px;
+            padding: 6px 10px;
             border: 1px solid #443939;
             border-radius: 4px;
-            width: 100px;
+            width: 80px;
             text-align: center;
+            font-size: inherit;
         }
         
         button {
             background-color: var(--secondary-color);
             color: rgb(255, 235, 235);
             border: none;
-            padding: 10px 20px;
+            padding: 8px 15px;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: inherit;
             transition: all 0.3s;
-            margin: 5px;
+            margin: 3px;
+            min-width: 100px;
         }
         
         button:hover {
-              background: rgba(91, 78, 78, 0.807);
+            background: rgba(91, 78, 78, 0.807);
             transform: translateY(-2px);
         }
         
         .piece-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 8px;
+            margin-top: 15px;
         }
         
         .piece-item {
             background: rgba(51, 44, 44, 0.807);
-            padding: 10px 15px;
+            padding: 8px 12px;
             border-radius: 10px 30px 10px 30px;
             border: 1px solid #d5e1f42d;
             display: flex;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 5px;
         }
         
         .canvas-container {
-            margin-top: 30px;
+            margin-top: 20px;
             text-align: center;
             position: relative;
+            width: 100%;
+            overflow: auto;
         }
         
         canvas {
             border: 1px solid #ddd;
             background: white;
             max-width: 100%;
+            height: auto;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             cursor: move;
         }
         
         .stats {
-            margin-top: 20px;
-            padding: 15px;
+            margin-top: 15px;
+            padding: 12px;
             background: #f8f9fa;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: inherit;
         }
         
         .add-piece-btn {
@@ -126,15 +148,23 @@
         
         .remove-piece-btn {
             background-color: #e74d3c83;
+            font-size: 0.9em;
+            padding: 5px 10px;
         }
         
         .mode-selector {
-            margin: 15px 0;
+            margin: 12px 0;
             text-align: center;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 5px;
         }
         
         .mode-btn {
             background-color: #95a5a69c;
+            flex: 1;
+            max-width: 200px;
         }
         
         .mode-btn.active {
@@ -144,37 +174,105 @@
         
         .instructions {
             background: #e8f4f870;
-            padding: 15px;
+            padding: 12px;
             border-radius: 8px;
-            margin: 15px 0;
+            margin: 12px 0;
             border-left: 5px solid var(--secondary-color);
+            flex: 1;
+            min-width: 250px;
         }
-        .logo{
-            font-size: 80%;
-           background: #ebfaff70;
-            border-radius: 8px;
-         width: 40vw;
-         height: 25vh;
         
-          margin-top: 5vh;
-          margin-right: 10vw;
-        }
-        .meni{
+        .logo {
+            font-size: 80%;
+            background: #ebfaff70;
+            border-radius: 8px;
+            width: 40vw;
+            min-height: 120px;
+            margin-top: 10px;
+            margin-right: 10px;
             display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 200px;
+            max-width: 300px;
         }
-        .logo img{width: 15vw;
-            margin-top: -3vh;
-            margin-right: 25vw;
+        
+        .meni {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 10px;
+          margin-bottom: 5vh;
+        }
+        
+        .logo img {
+            width:200px;
+            margin-top: -20px;
             filter: drop-shadow(5px 0px 10px black);
-            display: flex;
         }
-        .logo h2{
+        
+        .logo h2 {
             color: black;
-            margin-top: -10%;
-            margin-left: 5vw;
-              filter: drop-shadow(5px 0px 10px black);
-     
-
+            margin: 5px 0;
+            font-size: 1.2rem;
+            text-align: center;
+            filter: drop-shadow(5px 0px 10px black);
+        }
+        
+        /* Media Queries للشاشات الصغيرة */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .control-panel {
+                padding: 10px;
+            }
+            
+            .input-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            label {
+                width: auto;
+                margin-bottom: 5px;
+            }
+            
+            .piece-item {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .logo {
+                width: 100%;
+                max-width: 100%;
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            .meni {
+                flex-direction: column-reverse;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            button {
+                padding: 6px 10px;
+                font-size: 0.9em;
+                min-width: 80px;
+            }
+            
+            .mode-selector {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .mode-btn {
+                width: 100%;
+                max-width: 100%;
+            }
         }
     </style>
 </head>
@@ -188,8 +286,6 @@
             <p>2. اختر وضع التخطيط التلقائي أو اليدوي</p>
             <p>3. في الوضع اليدوي: اسحب القطع بالمؤشر لتغيير موقعها</p>
             <p>4. في الوضع اليدوي: انقر على القطعة ثم استخدم الأسهم للتدوير</p>
-
-            
         </div> 
         <div class="logo"> <img src="image logo.png" alt="">
        <h2>to7fa the art mastering work </h2>
@@ -222,7 +318,7 @@
         </div>
         
         <div class="canvas-container">
-            <canvas id="cuttingCanvas" width="1000" height="600"></canvas>
+            <canvas id="cuttingCanvas"></canvas>
         </div>
         
         <div class="stats" id="statsPanel">
@@ -254,6 +350,22 @@
         const canvas = document.getElementById('cuttingCanvas');
         const ctx = canvas.getContext('2d');
         const statsContent = document.getElementById('statsContent');
+        
+        // ضبط حجم Canvas ليتناسب مع الشاشة
+        function resizeCanvas() {
+            const containerWidth = document.querySelector('.canvas-container').offsetWidth;
+            const canvasHeight = Math.min(600, window.innerHeight * 0.5);
+            
+            canvas.width = containerWidth - 40;
+            canvas.height = canvasHeight;
+            
+            // إعادة رسم التخطيط إذا كان موجودًا
+            if (placedPieces.length > 0) {
+                const boardLength = parseInt(boardLengthInput.value);
+                const boardWidth = parseInt(boardWidthInput.value);
+                drawCuttingPlan(boardLength, boardWidth, placedPieces);
+            }
+        }
         
         // إضافة قطعة جديدة
         function addPiece(length = 40, width = 30) {
@@ -407,7 +519,7 @@
                 
                 // نص القطعة
                 ctx.fillStyle = '#000';
-                ctx.font = 'bold 12px Tahoma';
+                ctx.font = 'bold ' + Math.max(10, 12 * scale) + 'px Tahoma';
                 ctx.textAlign = 'center';
                 
                 const originalLength = piece.rotated ? piece.width : piece.length;
@@ -426,7 +538,7 @@
             
             // معلومات اللوح
             ctx.fillStyle = '#000';
-            ctx.font = 'bold 16px Tahoma';
+            ctx.font = 'bold ' + Math.max(12, 16 * scale) + 'px Tahoma';
             ctx.textAlign = 'left';
             ctx.fillText(`لوح خشب ${boardLength}×${boardWidth} سم`, padding, padding - 5);
         }
@@ -709,7 +821,9 @@
         });
         
         // تهيئة التطبيق
+        window.addEventListener('resize', resizeCanvas);
         setupManualMode();
+        resizeCanvas();
         resetApp();
     </script>
 </body>
