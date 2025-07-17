@@ -1,57 +1,70 @@
 <!DOCTYPE html>
-<meta http-equiv="refresh" content="">
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تطبيق متقدم لتخطيط قص الخشب مع تحكم يدوي</title>
+    <title>تطبيق ت7فة قص الخشب المتقدم</title>
     <style>
         :root {
-            --primary-color: #030405f1;
-            --secondary-color: #170d0d;
-            --wood-color: #080808;
-            --waste-color: #f3c6c6;
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --wood-color: #8B4513;
+            --waste-color: #e74c3c;
+            --text-color: #333;
+            --light-text: #f8f9fa;
         }
         
         body {
-            font-family: 'Tahoma', sans-serif;
+            font-family: 'Tahoma', Arial, sans-serif;
             direction: rtl;
             padding: 10px;
-            background: #868484;
+            background: #e1e6e8;
             line-height: 1.6;
             user-select: none;
-            font-size: clamp(14px, 2vw, 16px);
+            color: var(--text-color);
+            font-size: 16px;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         
         .container {
-            max-width: 95%;
+            width: 100%;
+            max-width: 1200px;
             margin: 0 auto;
-            background: rgba(51, 44, 44, 0.807);
+            background: rgba(1, 59, 248, 0.175);
             padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            flex: 1;
+            box-sizing: border-box;
         }
         
         h1, h2, h3 {
             color: var(--primary-color);
             text-align: center;
-            margin: 0.5em 0;
+            margin: 0.8em 0;
         }
         
         h1 {
-            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            font-size: clamp(1.5rem, 4vw, 1.8rem);
+            color: var(--primary-color);
+            margin-bottom: 15px;
         }
         
         h2 {
-            font-size: clamp(1rem, 3vw, 1.4rem);
+            font-size: clamp(1.2rem, 3vw, 1.4rem);
+            margin: 1em 0;
         }
         
         h3 {
-            font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
         }
         
         .control-panel {
-            background: #868484;
+          background: #e0e6d7;
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 15px;
@@ -61,42 +74,47 @@
         .input-group {
             margin-bottom: 10px;
             display: flex;
-            align-items: center;
             flex-wrap: wrap;
             gap: 10px;
+            align-items: center;
         }
         
         label {
             min-width: 100px;
             font-weight: bold;
             margin-left: 5px;
+            font-size: clamp(0.9rem, 2vw, 1rem);
         }
         
         input[type="number"] {
-            padding: 6px 10px;
-            border: 1px solid #443939;
-            border-radius: 4px;
-            width: 80px;
+            padding: 8px 10px;
+            border: 2px solid #bdc3c7;
+            border-radius: 6px;
+            width: 70px;
             text-align: center;
-            font-size: inherit;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            font-weight: bold;
+            box-sizing: border-box;
         }
         
         button {
             background-color: var(--secondary-color);
-            color: rgb(255, 235, 235);
+            color: white;
             border: none;
             padding: 8px 15px;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: inherit;
+            font-size: clamp(0.9rem, 2vw, 1rem);
             transition: all 0.3s;
             margin: 3px;
             min-width: 100px;
+            flex: 1 0 auto;
         }
         
         button:hover {
-            background: rgba(91, 78, 78, 0.807);
+            background: #2c3e50;
             transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         
         .piece-container {
@@ -107,64 +125,97 @@
         }
         
         .piece-item {
-            background: rgba(51, 44, 44, 0.807);
-            padding: 8px 12px;
-            border-radius: 10px 30px 10px 30px;
-            border: 1px solid #d5e1f42d;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            border: 2px solid #bdc3c7;
             display: flex;
             align-items: center;
             flex-wrap: wrap;
             gap: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .boards-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .board-section {
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 8px;
+            background: #f9f9f9;
+            width: 100%;
+            box-sizing: border-box;
         }
         
         .canvas-container {
-            margin-top: 20px;
             text-align: center;
             position: relative;
             width: 100%;
-            overflow: auto;
+            margin-top: 10px;
+            overflow-x: auto;
         }
         
         canvas {
-            border: 1px solid #ddd;
-            background: white;
+            border: 2px solid #bdc3c7;
+            background: #f8f9fa;
             max-width: 100%;
             height: auto;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
             cursor: move;
+            display: block;
+            margin: 0 auto;
         }
         
         .stats {
             margin-top: 15px;
-            padding: 12px;
+            padding: 10px;
             background: #f8f9fa;
             border-radius: 8px;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            border: 1px solid #ddd;
+        }
+        
+        .stats p {
+            margin: 8px 0;
             font-size: inherit;
         }
         
+        .stats strong {
+            color: var(--primary-color);
+        }
+        
         .add-piece-btn {
-            background-color: #27ae5f73;
+            background-color: #27ae60;
+            font-size: inherit;
         }
         
         .remove-piece-btn {
-            background-color: #e74d3c83;
-            font-size: 0.9em;
-            padding: 5px 10px;
+            background-color: #000000b9;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            padding: 6px 10px;
+         
         }
         
         .mode-selector {
-            margin: 12px 0;
+            margin: 10px 0;
             text-align: center;
             display: flex;
-            justify-content: center;
             flex-wrap: wrap;
             gap: 5px;
         }
         
         .mode-btn {
-            background-color: #95a5a69c;
-            flex: 1;
+            background-color: #95a5a6;
+            flex: 1 0 calc(50% - 10px);
             max-width: 200px;
+            font-size: inherit;
         }
         
         .mode-btn.active {
@@ -172,61 +223,60 @@
             font-weight: bold;
         }
         
-        .instructions {
-            background: #e8f4f870;
-            padding: 12px;
-            border-radius: 8px;
-            margin: 12px 0;
-            border-left: 5px solid var(--secondary-color);
-            flex: 1;
-            min-width: 250px;
-        }
+      
         
+     
         .logo {
-            font-size: 80%;
-            background: #ebfaff70;
+            font-size: inherit;
+            background: #e0e6d7;
             border-radius: 8px;
-            width: 40vw;
-            min-height: 120px;
+            min-height: 100px;
             margin-top: 10px;
-            margin-right: 10px;
+            margin-right: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-width: 200px;
-            max-width: 300px;
+            padding: 10px;
+            box-sizing: border-box;
+            width: 100%;
         }
         
         .meni {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between;
             gap: 10px;
-          margin-bottom: 5vh;
+            margin-bottom: 20px;
         }
         
         .logo img {
-            width:200px;
-            margin-top: -20px;
-            filter: drop-shadow(5px 0px 10px black);
+            width: 150px;
+            margin-top: -10px;
+            filter: drop-shadow(3px 3px 5px rgba(0,0,0,0.2));
+            max-width: 100%;
         }
         
         .logo h2 {
-            color: black;
+            color: var(--primary-color);
             margin: 5px 0;
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 3vw, 1.3rem);
+        }
+        .fb{
+            
+            font-size: 100%;
             text-align: center;
-            filter: drop-shadow(5px 0px 10px black);
+            height: 3rem;
+            display: block;
+            color: black;
+            text-decoration: none;
+filter: drop-shadow(0px 0px 5px black);
+
+
         }
         
-        /* Media Queries للشاشات الصغيرة */
+        /* تحسينات للشاشات الصغيرة */
         @media (max-width: 768px) {
             .container {
-                padding: 10px;
-            }
-            
-            .control-panel {
                 padding: 10px;
             }
             
@@ -236,69 +286,67 @@
             }
             
             label {
-                width: auto;
-                margin-bottom: 5px;
+                width: 100%;
+                margin-bottom: 3px;
+                min-width: auto;
+            }
+            
+            input[type="number"] {
+                width: 80px;
             }
             
             .piece-item {
-                width: 100%;
-                justify-content: space-between;
+                flex-direction: column;
+                align-items: flex-start;
             }
             
-            .logo {
-                width: 100%;
+            .mode-btn {
+                flex: 1 0 100%;
                 max-width: 100%;
-                margin-right: 0;
-                margin-bottom: 15px;
             }
             
-            .meni {
-                flex-direction: column-reverse;
+            button {
+                width: 100%;
+                margin: 3px 0;
             }
         }
         
         @media (max-width: 480px) {
-            button {
-                padding: 6px 10px;
-                font-size: 0.9em;
-                min-width: 80px;
+            h1 {
+                font-size: 1.3rem;
             }
             
-            .mode-selector {
-                flex-direction: column;
-                align-items: center;
+            input[type="number"] {
+                width: 70px;
+                padding: 6px 8px;
             }
             
-            .mode-btn {
-                width: 100%;
-                max-width: 100%;
+            .logo img {
+                width: 120px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>تطبيق ت7فة لتخطيط قص الخشب مع تحكم يدوي</h1>
+        <h1>تطبيق ت7فة قص الخشب المتقدم</h1>
         <div class="meni">
-        <div class="instructions">
-            <h3>تعليمات الاستخدام:</h3>
-            <p>1. أدخل أبعاد اللوح الخشبي والقطع المطلوبة</p>
-            <p>2. اختر وضع التخطيط التلقائي أو اليدوي</p>
-            <p>3. في الوضع اليدوي: اسحب القطع بالمؤشر لتغيير موقعها</p>
-            <p>4. في الوضع اليدوي: انقر على القطعة ثم استخدم الأسهم للتدوير</p>
-        </div> 
-        <div class="logo"> <img src="image logo.png" alt="">
-       <h2>to7fa the art mastering work </h2>
+        
+            <div class="logo">
+                <img src="image logo.png" alt="شعار التطبيق">
+                <h2>تطبيق تخطيط قص الخشب</h2>
+                <p style="text-align: center; font-size: 0.8rem; margin-top: 5px;">إصدار متقدم مع تحسينات الإطار والقطع المتعددة</p>
+            </div>
         </div>
-        </div>
+        
         <div class="control-panel">
             <h2>إعدادات اللوح الخشبي</h2>
             <div class="input-group">
-                <label for="boardLength">طول اللوح (سم):</label>
-                <input type="number" id="boardLength" value="240" min="1">
+                <label for="boardLength">  (سم):</label>
+                <input type="number" id="boardLength" value="240" min="10" step="1">
                 
-                <label for="boardWidth">عرض اللوح (سم):</label>
-                <input type="number" id="boardWidth" value="120" min="1">
+                <label for="boardWidth">  (سم):</label>
+                <input type="number" id="boardWidth" value="120" min="10" step="1">
             </div>
             
             <h2>القطع المطلوبة</h2>
@@ -306,31 +354,43 @@
                 <!-- سيتم إضافة القطع هنا ديناميكيًا -->
             </div>
             
-            <button id="addPieceBtn" class="add-piece-btn">+ إضافة قطعة</button>
+            <button id="addPieceBtn" class="add-piece-btn">+ إضافة قطعة جديدة</button>
             
             <div class="mode-selector">
                 <button id="autoModeBtn" class="mode-btn active">وضع التلقائي</button>
                 <button id="manualModeBtn" class="mode-btn">وضع اليدوي</button>
             </div>
             
-            <button id="calculateBtn">حساب التخطيط الأمثل</button>
-            <button id="resetBtn">إعادة تعيين</button>
+            <div style="text-align: center; margin-top: 15px;">
+                <button id="calculateBtn" style="font-size: 1rem; padding: 10px 20px; width: 100%; max-width: 300px; margin: 5px auto;">حساب التخطيط الأمثل</button>
+                <button id="resetBtn" style="background-color: #7f8c8d; width: 100%; max-width: 300px; margin: 5px auto;">إعادة تعيين</button>
+            </div>
         </div>
         
-        <div class="canvas-container">
-            <canvas id="cuttingCanvas"></canvas>
+        <div class="boards-container" id="boardsContainer">
+            <!-- سيتم إضافة الألواح هنا ديناميكيًا -->
         </div>
         
         <div class="stats" id="statsPanel">
-            <h3>إحصائيات التخطيط</h3>
-            <div id="statsContent"></div>
+            <h3>نتائج التخطيط</h3>
+            <div id="statsContent">
+                <p>سيتم عرض نتائج التخطيط هنا بعد الحساب</p>
+            </div>
+        </div>
+        <div class="logo">
+ <a href="https://web.facebook.com/profile.php?id=61557186663906">
+    <img src="facbook.png" alt=""><button class="fb">
+    <h1 class="fb">تواصل مع ت7فة</h1>
+</a></button>
+
+
         </div>
     </div>
 
     <script>
         // متغيرات التطبيق
         let pieces = [];
-        let placedPieces = [];
+        let boards = [];
         let nextPieceId = 1;
         let isManualMode = false;
         let selectedPiece = null;
@@ -340,6 +400,7 @@
         
         // العناصر الرئيسية
         const piecesContainer = document.getElementById('piecesContainer');
+        const boardsContainer = document.getElementById('boardsContainer');
         const addPieceBtn = document.getElementById('addPieceBtn');
         const calculateBtn = document.getElementById('calculateBtn');
         const resetBtn = document.getElementById('resetBtn');
@@ -347,36 +408,20 @@
         const manualModeBtn = document.getElementById('manualModeBtn');
         const boardLengthInput = document.getElementById('boardLength');
         const boardWidthInput = document.getElementById('boardWidth');
-        const canvas = document.getElementById('cuttingCanvas');
-        const ctx = canvas.getContext('2d');
         const statsContent = document.getElementById('statsContent');
         
-        // ضبط حجم Canvas ليتناسب مع الشاشة
-        function resizeCanvas() {
-            const containerWidth = document.querySelector('.canvas-container').offsetWidth;
-            const canvasHeight = Math.min(600, window.innerHeight * 0.5);
-            
-            canvas.width = containerWidth - 40;
-            canvas.height = canvasHeight;
-            
-            // إعادة رسم التخطيط إذا كان موجودًا
-            if (placedPieces.length > 0) {
-                const boardLength = parseInt(boardLengthInput.value);
-                const boardWidth = parseInt(boardWidthInput.value);
-                drawCuttingPlan(boardLength, boardWidth, placedPieces);
-            }
-        }
-        
         // إضافة قطعة جديدة
-        function addPiece(length = 40, width = 30) {
+        function addPiece(length = 60, width = 40, quantity = 1) {
             const pieceId = nextPieceId++;
             const pieceElement = document.createElement('div');
             pieceElement.className = 'piece-item';
             pieceElement.innerHTML = `
-                <label>قطعة ${pieceId}:</label>
-                <input type="number" class="piece-length" value="${length}" min="1" placeholder="الطول">
-                <span>×</span>
-                <input type="number" class="piece-width" value="${width}" min="1" placeholder="العرض">
+                <label>القطعة ${pieceId}:</label>
+                <input type="number" class="piece-length" value="${length}" min="5" step="1" placeholder="الطول">
+                <span style="font-weight: bold;">×</span>
+                <input type="number" class="piece-width" value="${width}" min="5" step="1" placeholder="العرض">
+                <span style="font-weight: bold;">عدد:</span>
+                <input type="number" class="piece-quantity" value="${quantity}" min="1" step="1" placeholder="العدد">
                 <button class="remove-piece-btn" data-id="${pieceId}">حذف</button>
             `;
             
@@ -394,86 +439,257 @@
             const pieces = [];
             
             pieceItems.forEach((item, index) => {
-                const length = parseInt(item.querySelector('.piece-length').value);
-                const width = parseInt(item.querySelector('.piece-width').value);
+                const length = parseInt(item.querySelector('.piece-length').value) || 0;
+                const width = parseInt(item.querySelector('.piece-width').value) || 0;
+                const quantity = parseInt(item.querySelector('.piece-quantity').value) || 1;
+                const id = parseInt(item.querySelector('.remove-piece-btn').getAttribute('data-id'));
                 
-                if (length > 0 && width > 0) {
-                    pieces.push({
-                        id: index + 1,
-                        length: length,
-                        width: width,
-                        x: 0,
-                        y: 0,
-                        rotated: false
-                    });
+                if (length >= 5 && width >= 5 && quantity >= 1) {
+                    for (let i = 0; i < quantity; i++) {
+                        pieces.push({
+                            id: id + '-' + (i + 1),
+                            originalId: id,
+                            length: length,
+                            width: width,
+                            x: 0,
+                            y: 0,
+                            rotated: false,
+                            placed: false,
+                            boardIndex: -1,
+                            quantity: quantity
+                        });
+                    }
                 }
             });
             
             return pieces;
         }
         
-        // خوارزمية تخطيط متقدمة
-        function calculateOptimalCut(boardWidth, boardLength, pieces) {
-            // نسخ المصفوفة وترتيبها من الأكبر إلى الأصغر
+        // خوارزمية تخطيط متقدمة مع دعم متعدد الألواح
+        function calculateOptimalCut(boardLength, boardWidth, pieces) {
+            // نسخ المصفوفة وترتيبها من الأكبر إلى الأصغر حسب المساحة
             const sortedPieces = [...pieces].sort((a, b) => (b.length * b.width) - (a.length * a.width));
+            let boards = [];
+            let unplacedPieces = [];
             
-            let currentX = 0;
-            let currentY = 0;
-            let currentRowHeight = 0;
-            let placedPieces = [];
+            // إنشاء أول لوح
+            boards.push({
+                length: boardLength,
+                width: boardWidth,
+                pieces: [],
+                availableSpaces: [{x: 0, y: 0, length: boardLength, width: boardWidth}]
+            });
             
             for (const piece of sortedPieces) {
-                // إذا كانت القطعة أكبر من اللوح
-                if (piece.length > boardLength || piece.width > boardWidth) {
-                    continue;
+                let placed = false;
+                
+                // محاولة وضع القطعة في أحد الألواح الموجودة
+                for (let b = 0; b < boards.length; b++) {
+                    const board = boards[b];
+                    
+                    // البحث عن أفضل مساحة في هذا اللوح
+                    for (let i = 0; i < board.availableSpaces.length; i++) {
+                        const space = board.availableSpaces[i];
+                        
+                        // المحاولة بدون تدوير
+                        if (piece.length <= space.length && piece.width <= space.width) {
+                            const newPiece = {
+                                ...piece,
+                                x: space.x,
+                                y: space.y,
+                                rotated: false,
+                                placed: true,
+                                boardIndex: b
+                            };
+                            
+                            board.pieces.push(newPiece);
+                            
+                            // تقسيم المساحة المتبقية
+                            if (space.length > piece.length) {
+                                board.availableSpaces.push({
+                                    x: space.x + piece.length,
+                                    y: space.y,
+                                    length: space.length - piece.length,
+                                    width: piece.width
+                                });
+                            }
+                            
+                            if (space.width > piece.width) {
+                                board.availableSpaces.push({
+                                    x: space.x,
+                                    y: space.y + piece.width,
+                                    length: space.length,
+                                    width: space.width - piece.width
+                                });
+                            }
+                            
+                            board.availableSpaces.splice(i, 1);
+                            placed = true;
+                            break;
+                        }
+                        
+                        // المحاولة مع التدوير إذا لم تنجح المحاولة الأولى
+                        if (!placed && piece.width <= space.length && piece.length <= space.width) {
+                            const newPiece = {
+                                ...piece,
+                                x: space.x,
+                                y: space.y,
+                                length: piece.width,
+                                width: piece.length,
+                                rotated: true,
+                                placed: true,
+                                boardIndex: b
+                            };
+                            
+                            board.pieces.push(newPiece);
+                            
+                            // تقسيم المساحة المتبقية للقطعة المدورة
+                            if (space.length > piece.width) {
+                                board.availableSpaces.push({
+                                    x: space.x + piece.width,
+                                    y: space.y,
+                                    length: space.length - piece.width,
+                                    width: piece.length
+                                });
+                            }
+                            
+                            if (space.width > piece.length) {
+                                board.availableSpaces.push({
+                                    x: space.x,
+                                    y: space.y + piece.length,
+                                    length: space.length,
+                                    width: space.width - piece.length
+                                });
+                            }
+                            
+                            board.availableSpaces.splice(i, 1);
+                            placed = true;
+                            break;
+                        }
+                    }
+                    
+                    if (placed) break;
                 }
                 
-                // إذا لم تعد هناك مساحة في الصف الحالي
-                if (currentX + piece.length > boardLength) {
-                    currentX = 0;
-                    currentY += currentRowHeight;
-                    currentRowHeight = 0;
-                }
-                
-                // إذا كانت هناك مساحة كافية
-                if (currentY + piece.width <= boardWidth) {
-                    const placedPiece = {
-                        ...piece,
-                        x: currentX,
-                        y: currentY,
-                        rotated: false
+                // إذا لم يتم وضع القطعة في أي لوح موجود، ننشئ لوحاً جديداً
+                if (!placed) {
+                    // التحقق أولاً إذا كانت القطعة أكبر من اللوح
+                    if (piece.length > boardLength || piece.width > boardWidth) {
+                        if (piece.width > boardLength || piece.length > boardWidth) {
+                            unplacedPieces.push({
+                                ...piece,
+                                placed: false,
+                                boardIndex: -1
+                            });
+                            continue;
+                        }
+                    }
+                    
+                    // إنشاء لوح جديد
+                    const newBoard = {
+                        length: boardLength,
+                        width: boardWidth,
+                        pieces: [],
+                        availableSpaces: [{x: 0, y: 0, length: boardLength, width: boardWidth}]
                     };
                     
-                    placedPieces.push(placedPiece);
+                    // محاولة وضع القطعة في اللوح الجديد
+                    const space = newBoard.availableSpaces[0];
                     
-                    currentX += piece.length;
-                    currentRowHeight = Math.max(currentRowHeight, piece.width);
-                }
-                else {
-                    // محاولة تدوير القطعة إذا لم تكن مناسبة
-                    if (currentX + piece.width <= boardLength && currentY + piece.length <= boardWidth) {
-                        const placedPiece = {
+                    // المحاولة بدون تدوير أولاً
+                    if (piece.length <= space.length && piece.width <= space.width) {
+                        const newPiece = {
                             ...piece,
-                            x: currentX,
-                            y: currentY,
-                            length: piece.width,
-                            width: piece.length,
-                            rotated: true
+                            x: space.x,
+                            y: space.y,
+                            rotated: false,
+                            placed: true,
+                            boardIndex: boards.length
                         };
                         
-                        placedPieces.push(placedPiece);
+                        newBoard.pieces.push(newPiece);
                         
-                        currentX += piece.width;
-                        currentRowHeight = Math.max(currentRowHeight, piece.length);
+                        // تقسيم المساحة المتبقية
+                        if (space.length > piece.length) {
+                            newBoard.availableSpaces.push({
+                                x: space.x + piece.length,
+                                y: space.y,
+                                length: space.length - piece.length,
+                                width: piece.width
+                            });
+                        }
+                        
+                        if (space.width > piece.width) {
+                            newBoard.availableSpaces.push({
+                                x: space.x,
+                                y: space.y + piece.width,
+                                length: space.length,
+                                width: space.width - piece.width
+                            });
+                        }
+                        
+                        newBoard.availableSpaces.shift();
+                        placed = true;
+                    } 
+                    // المحاولة مع التدوير
+                    else if (piece.width <= space.length && piece.length <= space.width) {
+                        const newPiece = {
+                            ...piece,
+                            x: space.x,
+                            y: space.y,
+                            length: piece.width,
+                            width: piece.length,
+                            rotated: true,
+                            placed: true,
+                            boardIndex: boards.length
+                        };
+                        
+                        newBoard.pieces.push(newPiece);
+                        
+                        // تقسيم المساحة المتبقية للقطعة المدورة
+                        if (space.length > piece.width) {
+                            newBoard.availableSpaces.push({
+                                x: space.x + piece.width,
+                                y: space.y,
+                                length: space.length - piece.width,
+                                width: piece.length
+                            });
+                        }
+                        
+                        if (space.width > piece.length) {
+                            newBoard.availableSpaces.push({
+                                x: space.x,
+                                y: space.y + piece.length,
+                                length: space.length,
+                                width: space.width - piece.length
+                            });
+                        }
+                        
+                        newBoard.availableSpaces.shift();
+                        placed = true;
+                    }
+                    
+                    if (placed) {
+                        boards.push(newBoard);
+                    } else {
+                        unplacedPieces.push({
+                            ...piece,
+                            placed: false,
+                            boardIndex: -1
+                        });
                     }
                 }
             }
             
-            return placedPieces;
+            return {
+                boards: boards,
+                unplacedPieces: unplacedPieces
+            };
         }
         
-        // رسم التخطيط على Canvas
-        function drawCuttingPlan(boardLength, boardWidth, pieces) {
+        // رسم لوح خشبي على Canvas
+        function drawBoard(canvas, boardLength, boardWidth, pieces, boardIndex) {
+            const ctx = canvas.getContext('2d');
             const padding = 20;
             const scale = Math.min(
                 (canvas.width - 2 * padding) / boardLength,
@@ -489,6 +705,12 @@
             ctx.lineWidth = 2;
             ctx.strokeRect(padding, padding, boardLength * scale, boardWidth * scale);
             
+            // معلومات اللوح
+            ctx.fillStyle = '#2c3e50';
+            ctx.font = 'bold ' + Math.max(12, 14 * scale) + 'px Tahoma';
+            ctx.textAlign = 'left';
+            ctx.fillText(` ${boardIndex + 1}: ${boardLength} × ${boardWidth} `, padding, padding - 5);
+            
             // رسم القطع
             pieces.forEach(piece => {
                 const x = padding + piece.x * scale;
@@ -497,205 +719,164 @@
                 const height = piece.width * scale;
                 
                 // لون القطعة
-                ctx.fillStyle = `hsl(${piece.id * 50 % 360}, 70%, 80%)`;
+                ctx.fillStyle = `hsl(${piece.originalId * 50 % 360}, 70%, 80%)`;
                 ctx.fillRect(x, y, width, height);
                 
                 // تحديد إذا كانت القطعة مختارة
                 const isSelected = selectedPiece === piece;
                 
-                // رسم إطار خارج القطعة إذا كانت مختارة
+                // رسم إطار خارج القطعة إذا كانت مختارة (بدون التأثير على الأبعاد)
                 if (isSelected) {
-                    ctx.strokeStyle = '#000';
-                    ctx.lineWidth = 3;
-                    ctx.setLineDash([5, 3]);
-                    ctx.strokeRect(x - 2, y - 2, width + 4, height + 4);
-                    ctx.setLineDash([]);
+                    ctx.strokeStyle = '#e74c3c';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(x, y, width, height);
+                    
+                    // إضافة نقاط في الزوايا لتسهيل التحريك
+                    const dotSize = 4;
+                    ctx.fillStyle = '#e74c3c';
+                    ctx.fillRect(x - dotSize/2, y - dotSize/2, dotSize, dotSize); // أعلى يسار
+                    ctx.fillRect(x + width - dotSize/2, y - dotSize/2, dotSize, dotSize); // أعلى يمين
+                    ctx.fillRect(x - dotSize/2, y + height - dotSize/2, dotSize, dotSize); // أسفل يسار
+                    ctx.fillRect(x + width - dotSize/2, y + height - dotSize/2, dotSize, dotSize); // أسفل يمين
                 }
                 
-                // إطار القطعة العادي (دون التأثير على الأبعاد)
-                ctx.strokeStyle = '#333';
-                ctx.lineWidth = 1;
+                // إطار القطعة العادي (رقيق جداً)
+                ctx.strokeStyle = 'rgba(0,0,0,0.2)';
+                ctx.lineWidth = 0.5;
                 ctx.strokeRect(x, y, width, height);
                 
                 // نص القطعة
                 ctx.fillStyle = '#000';
-                ctx.font = 'bold ' + Math.max(10, 12 * scale) + 'px Tahoma';
+                const fontSize = Math.max(10, 12 * scale);
+                ctx.font = 'bold ' + fontSize + 'px Tahoma';
                 ctx.textAlign = 'center';
                 
                 const originalLength = piece.rotated ? piece.width : piece.length;
                 const originalWidth = piece.rotated ? piece.length : piece.width;
-                const text1 = `قطعة ${piece.id}`;
-                const text2 = `${originalLength}×${originalWidth} سم`;
+                const text1 = ` ${piece.originalId}`;
+                const text2 = `${originalLength} × ${originalWidth} `;
                 
-                ctx.fillText(text1, x + width/2, y + height/2 - 10);
-                ctx.fillText(text2, x + width/2, y + height/2 + 10);
+                ctx.fillText(text1, x + width/2, y + height/2 - 8);
+                ctx.fillText(text2, x + width/2, y + height/2 + 8);
                 
                 if (piece.rotated) {
-                    ctx.fillStyle = 'rgba(0,0,0,0.2)';
-                    ctx.fillText('↻', x + 15, y + 15);
+                    ctx.fillStyle = 'rgba(0,0,0,0.3)';
+                    ctx.fillText('↻', x + 12, y + 12);
+                }
+            });
+        }
+        
+        // عرض جميع الألواح
+        function displayBoards(boardLength, boardWidth, boardsData) {
+            boardsContainer.innerHTML = '';
+            
+            boardsData.boards.forEach((board, index) => {
+                const boardSection = document.createElement('div');
+                boardSection.className = 'board-section';
+                boardSection.innerHTML = `
+                    <h3>اللوح الخشبي ${index + 1}</h3>
+                    <div class="canvas-container">
+                        <canvas class="board-canvas" data-index="${index}"></canvas>
+                    </div>
+                `;
+                
+                boardsContainer.appendChild(boardSection);
+                
+                const canvas = boardSection.querySelector('.board-canvas');
+                const containerWidth = boardSection.querySelector('.canvas-container').offsetWidth;
+                const canvasHeight = Math.min(400, window.innerHeight * 0.4);
+                
+                canvas.width = containerWidth - 30;
+                canvas.height = canvasHeight;
+                
+                drawBoard(canvas, board.length, board.width, board.pieces, index);
+                
+                // إضافة أحداث Canvas للوضع اليدوي
+                if (isManualMode) {
+                    setupCanvasEvents(canvas, index);
                 }
             });
             
-            // معلومات اللوح
-            ctx.fillStyle = '#000';
-            ctx.font = 'bold ' + Math.max(12, 16 * scale) + 'px Tahoma';
-            ctx.textAlign = 'left';
-            ctx.fillText(`لوح خشب ${boardLength}×${boardWidth} سم`, padding, padding - 5);
-        }
-        
-        // حساب الإحصائيات
-        function calculateStats(boardLength, boardWidth, pieces) {
-            const boardArea = boardLength * boardWidth;
-            let usedArea = 0;
-            let unplacedPieces = 0;
-            
-            pieces.forEach(piece => {
-                if (piece.x !== undefined && piece.y !== undefined) {
-                    usedArea += piece.length * piece.width;
-                } else {
-                    unplacedPieces++;
-                }
-            });
-            
-            const wasteArea = boardArea - usedArea;
-            const efficiency = (usedArea / boardArea * 100).toFixed(1);
-            
-            return {
-                totalPieces: pieces.length,
-                placedPieces: pieces.length - unplacedPieces,
-                unplacedPieces: unplacedPieces,
-                usedArea,
-                wasteArea,
-                efficiency
-            };
-        }
-        
-        // عرض الإحصائيات
-        function displayStats(stats) {
-            statsContent.innerHTML = `
-                <p><strong>عدد القطع:</strong> ${stats.placedPieces} من ${stats.totalPieces} (${stats.unplacedPieces} غير متسعة)</p>
-                <p><strong>مساحة اللوح:</strong> ${stats.usedArea + stats.wasteArea} سم²</p>
-                <p><strong>مساحة مستخدمة:</strong> ${stats.usedArea} سم²</p>
-                <p><strong>مساحة مهدرة:</strong> ${stats.wasteArea} سم²</p>
-                <p><strong>كفاءة التخطيط:</strong> ${stats.efficiency}%</p>
-            `;
-        }
-        
-        // تحويل إحداثيات المؤشر إلى إحداثيات لوح الخشب
-        function getBoardCoordinates(clientX, clientY) {
-            const rect = canvas.getBoundingClientRect();
-            const padding = 20;
-            const boardLength = parseInt(boardLengthInput.value);
-            const boardWidth = parseInt(boardWidthInput.value);
-            
-            const scale = Math.min(
-                (canvas.width - 2 * padding) / boardLength,
-                (canvas.height - 2 * padding) / boardWidth
-            );
-            
-            const x = (clientX - rect.left - padding) / scale;
-            const y = (clientY - rect.top - padding) / scale;
-            
-            return { x, y };
-        }
-        
-        // البحث عن قطعة في موقع معين
-        function findPieceAt(x, y) {
-            for (const piece of placedPieces) {
-                if (x >= piece.x && x <= piece.x + piece.length &&
-                    y >= piece.y && y <= piece.y + piece.width) {
-                    return piece;
-                }
+            // عرض القطع التي لم توضع
+            if (boardsData.unplacedPieces.length > 0) {
+                const unplacedSection = document.createElement('div');
+                unplacedSection.className = 'board-section';
+                unplacedSection.style.backgroundColor = '#ffebee';
                 
-                // التحقق من التدوير
-                if (piece.rotated) {
-                    if (x >= piece.x && x <= piece.x + piece.width &&
-                        y >= piece.y && y <= piece.y + piece.length) {
-                        return piece;
-                    }
-                }
-            }
-            return null;
-        }
-        
-        // تدوير قطعة محددة
-        function rotatePiece(piece) {
-            if (!piece) return;
-            
-            const newLength = piece.width;
-            const newWidth = piece.length;
-            
-            // التحقق من أن القطعة ستبقى داخل اللوح بعد التدوير
-            const boardLength = parseInt(boardLengthInput.value);
-            const boardWidth = parseInt(boardWidthInput.value);
-            
-            if (piece.x + newLength <= boardLength && piece.y + newWidth <= boardWidth) {
-                piece.length = newLength;
-                piece.width = newWidth;
-                piece.rotated = !piece.rotated;
-                drawCuttingPlan(boardLength, boardWidth, placedPieces);
-            } else {
-                alert("لا يمكن تدوير هذه القطعة، ستخرج عن حدود اللوح");
-            }
-        }
-        
-        // نقل قطعة محددة
-        function movePiece(piece, newX, newY) {
-            if (!piece) return;
-            
-            const boardLength = parseInt(boardLengthInput.value);
-            const boardWidth = parseInt(boardWidthInput.value);
-            
-            // التحقق من أن القطعة ستبقى داخل اللوح
-            if (newX >= 0 && newX + piece.length <= boardLength &&
-                newY >= 0 && newY + piece.width <= boardWidth) {
+                let unplacedText = `<h3 style="color: #e74c3c;">قطع لم يتم وضعها (${boardsData.unplacedPieces.length})</h3><ul style="padding-right: 15px;">`;
                 
-                // التحقق من عدم تداخل القطع
-                let canMove = true;
-                for (const otherPiece of placedPieces) {
-                    if (otherPiece !== piece) {
-                        if (newX < otherPiece.x + otherPiece.length &&
-                            newX + piece.length > otherPiece.x &&
-                            newY < otherPiece.y + otherPiece.width &&
-                            newY + piece.width > otherPiece.y) {
-                            canMove = false;
-                            break;
+                boardsData.unplacedPieces.forEach(piece => {
+                    unplacedText += `<li>القطعة ${piece.originalId}: ${piece.length} × ${piece.width} سم - `;
+                    
+                    if (piece.length > boardLength || piece.width > boardWidth) {
+                        if (piece.width > boardLength || piece.length > boardWidth) {
+                            unplacedText += `أبعادها أكبر من اللوح</li>`;
+                        } else {
+                            unplacedText += `يمكن تدويرها لوضعها</li>`;
                         }
+                    } else {
+                        unplacedText += `لم تجد مساحة كافية</li>`;
                     }
-                }
+                });
                 
-                if (canMove) {
-                    piece.x = newX;
-                    piece.y = newY;
-                    drawCuttingPlan(boardLength, boardWidth, placedPieces);
-                }
+                unplacedText += '</ul>';
+                unplacedSection.innerHTML = unplacedText;
+                boardsContainer.appendChild(unplacedSection);
             }
         }
         
-        // أحداث Canvas للوضع اليدوي
-        function setupManualMode() {
+        // إعداد أحداث Canvas للوضع اليدوي
+        function setupCanvasEvents(canvas, boardIndex) {
             canvas.addEventListener('mousedown', function(e) {
                 if (!isManualMode) return;
                 
-                const boardCoords = getBoardCoordinates(e.clientX, e.clientY);
-                selectedPiece = findPieceAt(boardCoords.x, boardCoords.y);
+                const rect = canvas.getBoundingClientRect();
+                const padding = 20;
+                const boardLength = parseInt(boardLengthInput.value);
+                const boardWidth = parseInt(boardWidthInput.value);
+                
+                const scale = Math.min(
+                    (canvas.width - 2 * padding) / boardLength,
+                    (canvas.height - 2 * padding) / boardWidth
+                );
+                
+                const x = (e.clientX - rect.left - padding) / scale;
+                const y = (e.clientY - rect.top - padding) / scale;
+                
+                // البحث عن القطعة في هذا اللوح
+                selectedPiece = boards[boardIndex].pieces.find(piece => 
+                    x >= piece.x && x <= piece.x + piece.length &&
+                    y >= piece.y && y <= piece.y + piece.width
+                );
                 
                 if (selectedPiece) {
                     isDragging = true;
-                    dragOffsetX = boardCoords.x - selectedPiece.x;
-                    dragOffsetY = boardCoords.y - selectedPiece.y;
-                    drawCuttingPlan(parseInt(boardLengthInput.value), parseInt(boardWidthInput.value), placedPieces);
+                    dragOffsetX = x - selectedPiece.x;
+                    dragOffsetY = y - selectedPiece.y;
+                    redrawAllBoards();
                 }
             });
             
             canvas.addEventListener('mousemove', function(e) {
                 if (!isManualMode || !isDragging || !selectedPiece) return;
                 
-                const boardCoords = getBoardCoordinates(e.clientX, e.clientY);
-                const newX = boardCoords.x - dragOffsetX;
-                const newY = boardCoords.y - dragOffsetY;
+                const rect = canvas.getBoundingClientRect();
+                const padding = 20;
+                const boardLength = parseInt(boardLengthInput.value);
+                const boardWidth = parseInt(boardWidthInput.value);
                 
-                movePiece(selectedPiece, newX, newY);
+                const scale = Math.min(
+                    (canvas.width - 2 * padding) / boardLength,
+                    (canvas.height - 2 * padding) / boardWidth
+                );
+                
+                const x = (e.clientX - rect.left - padding) / scale;
+                const y = (e.clientY - rect.top - padding) / scale;
+                
+                const newX = x - dragOffsetX;
+                const newY = y - dragOffsetY;
+                
+                movePiece(selectedPiece, newX, newY, boardIndex);
             });
             
             canvas.addEventListener('mouseup', function() {
@@ -710,37 +891,207 @@
             canvas.addEventListener('dblclick', function(e) {
                 if (!isManualMode) return;
                 
-                const boardCoords = getBoardCoordinates(e.clientX, e.clientY);
-                const piece = findPieceAt(boardCoords.x, boardCoords.y);
-                rotatePiece(piece);
-            });
-            
-            // تدوير القطعة باستخدام الأزرار
-            document.addEventListener('keydown', function(e) {
-                if (!isManualMode || !selectedPiece) return;
-                
+                const rect = canvas.getBoundingClientRect();
+                const padding = 20;
                 const boardLength = parseInt(boardLengthInput.value);
                 const boardWidth = parseInt(boardWidthInput.value);
                 
-                switch(e.key) {
-                    case 'ArrowUp':
-                        movePiece(selectedPiece, selectedPiece.x, Math.max(0, selectedPiece.y - 1));
-                        break;
-                    case 'ArrowDown':
-                        movePiece(selectedPiece, selectedPiece.x, Math.min(boardWidth - selectedPiece.width, selectedPiece.y + 1));
-                        break;
-                    case 'ArrowLeft':
-                        movePiece(selectedPiece, Math.max(0, selectedPiece.x - 1), selectedPiece.y);
-                        break;
-                    case 'ArrowRight':
-                        movePiece(selectedPiece, Math.min(boardLength - selectedPiece.length, selectedPiece.x + 1), selectedPiece.y);
-                        break;
-                    case 'r':
-                    case 'R':
-                        rotatePiece(selectedPiece);
-                        break;
+                const scale = Math.min(
+                    (canvas.width - 2 * padding) / boardLength,
+                    (canvas.height - 2 * padding) / boardWidth
+                );
+                
+                const x = (e.clientX - rect.left - padding) / scale;
+                const y = (e.clientY - rect.top - padding) / scale;
+                
+                const piece = boards[boardIndex].pieces.find(p => 
+                    x >= p.x && x <= p.x + p.length &&
+                    y >= p.y && y <= p.y + p.width
+                );
+                
+                rotatePiece(piece, boardIndex);
+            });
+        }
+        
+        // إعادة رسم جميع الألواح
+        function redrawAllBoards() {
+            const canvases = document.querySelectorAll('.board-canvas');
+            canvases.forEach((canvas, index) => {
+                const board = boards[index];
+                drawBoard(canvas, board.length, board.width, board.pieces, index);
+            });
+        }
+        
+        // تدوير قطعة محددة
+        function rotatePiece(piece, boardIndex) {
+            if (!piece || boardIndex === undefined) return;
+            
+            const boardLength = parseInt(boardLengthInput.value);
+            const boardWidth = parseInt(boardWidthInput.value);
+            
+            // الأبعاد الجديدة بعد التدوير
+            const newLength = piece.width;
+            const newWidth = piece.length;
+            
+            // التحقق من عدم الخروج عن حدود اللوح
+            if (piece.x + newLength <= boardLength && piece.y + newWidth <= boardWidth) {
+                // التحقق من عدم التداخل مع القطع الأخرى
+                let canRotate = true;
+                
+                for (const otherPiece of boards[boardIndex].pieces) {
+                    if (otherPiece !== piece) {
+                        if (piece.x < otherPiece.x + otherPiece.length &&
+                            piece.x + newLength > otherPiece.x &&
+                            piece.y < otherPiece.y + otherPiece.width &&
+                            piece.y + newWidth > otherPiece.y) {
+                            canRotate = false;
+                            break;
+                        }
+                    }
+                }
+                
+                if (canRotate) {
+                    piece.length = newLength;
+                    piece.width = newWidth;
+                    piece.rotated = !piece.rotated;
+                    redrawAllBoards();
+                } else {
+                    alert("لا يمكن تدوير القطعة بسبب التداخل مع قطع أخرى");
+                }
+            } else {
+                alert("لا يمكن تدوير القطعة، ستخرج عن حدود اللوح");
+            }
+        }
+        
+        // نقل قطعة محددة
+        function movePiece(piece, newX, newY, boardIndex) {
+            if (!piece || boardIndex === undefined) return;
+            
+            const boardLength = parseInt(boardLengthInput.value);
+            const boardWidth = parseInt(boardWidthInput.value);
+            
+            // التحقق من أن القطعة ستبقى داخل اللوح
+            if (newX >= 0 && newX + piece.length <= boardLength &&
+                newY >= 0 && newY + piece.width <= boardWidth) {
+                
+                // التحقق من عدم تداخل القطع
+                let canMove = true;
+                for (const otherPiece of boards[boardIndex].pieces) {
+                    if (otherPiece !== piece) {
+                        if (newX < otherPiece.x + otherPiece.length &&
+                            newX + piece.length > otherPiece.x &&
+                            newY < otherPiece.y + otherPiece.width &&
+                            newY + piece.width > otherPiece.y) {
+                            canMove = false;
+                            break;
+                        }
+                    }
+                }
+                
+                if (canMove) {
+                    piece.x = Math.max(0, newX);
+                    piece.y = Math.max(0, newY);
+                    redrawAllBoards();
+                }
+            }
+        }
+        
+        // حساب الإحصائيات
+        function calculateStats(boardLength, boardWidth, boardsData) {
+            const boardArea = boardLength * boardWidth;
+            let totalUsedArea = 0;
+            let totalWasteArea = 0;
+            let totalPieces = boardsData.unplacedPieces.length;
+            let placedPieces = 0;
+            
+            // حساب القطع الفريدة (حسب originalId)
+            const uniquePieces = {};
+            boardsData.boards.forEach(board => {
+                board.pieces.forEach(piece => {
+                    totalUsedArea += piece.length * piece.width;
+                    placedPieces++;
+                    
+                    if (!uniquePieces[piece.originalId]) {
+                        uniquePieces[piece.originalId] = {
+                            length: piece.rotated ? piece.width : piece.length,
+                            width: piece.rotated ? piece.length : piece.width,
+                            count: 1
+                        };
+                    } else {
+                        uniquePieces[piece.originalId].count++;
+                    }
+                });
+                totalPieces += board.pieces.length;
+                totalWasteArea += boardArea - board.pieces.reduce((sum, piece) => sum + (piece.length * piece.width), 0);
+            });
+            
+            // حساب القطع غير الموضوعة الفريدة
+            const unplacedUnique = {};
+            boardsData.unplacedPieces.forEach(piece => {
+                if (!unplacedUnique[piece.originalId]) {
+                    unplacedUnique[piece.originalId] = {
+                        length: piece.length,
+                        width: piece.width,
+                        count: 1
+                    };
+                } else {
+                    unplacedUnique[piece.originalId].count++;
                 }
             });
+            
+            const totalBoardArea = boardArea * boardsData.boards.length;
+            const efficiency = totalBoardArea > 0 ? (totalUsedArea / totalBoardArea * 100).toFixed(1) : "0";
+            
+            return {
+                totalPieces: totalPieces,
+                placedPieces: placedPieces,
+                unplacedPieces: boardsData.unplacedPieces.length,
+                totalBoards: boardsData.boards.length,
+                usedArea: totalUsedArea,
+                wasteArea: totalWasteArea,
+                efficiency: efficiency,
+                uniquePieces: uniquePieces,
+                unplacedUnique: unplacedUnique
+            };
+        }
+        
+        // عرض الإحصائيات
+        function displayStats(stats) {
+            let piecesList = '<h4>القطع الموضوعة:</h4><ul style="padding-right: 15px;">';
+            
+            for (const pieceId in stats.uniquePieces) {
+                const piece = stats.uniquePieces[pieceId];
+                piecesList += `<li>القطعة ${pieceId}: ${piece.length} × ${piece.width} سم (${piece.count} قطعة)</li>`;
+            }
+            
+            piecesList += '</ul>';
+            
+            let unplacedList = '';
+            if (stats.unplacedPieces > 0) {
+                unplacedList = '<h4 style="color: #e74c3c;">القطع غير الموضوعة:</h4><ul style="padding-right: 15px;">';
+                
+                for (const pieceId in stats.unplacedUnique) {
+                    const piece = stats.unplacedUnique[pieceId];
+                    unplacedList += `<li>القطعة ${pieceId}: ${piece.length} × ${piece.width} سم (${piece.count} قطعة)</li>`;
+                }
+                
+                unplacedList += '</ul>';
+            }
+            
+            statsContent.innerHTML = `
+                <p><strong>عدد الألواح المستخدمة:</strong> ${stats.totalBoards}</p>
+                <p><strong>عدد القطع الكلي:</strong> ${stats.totalPieces}</p>
+                <p><strong>القطع الموضوعة:</strong> ${stats.placedPieces}</p>
+                <p><strong>القطع غير الموضوعة:</strong> ${stats.unplacedPieces}</p>
+                <hr style="border-top: 1px solid #ddd; margin: 10px 0;">
+                ${piecesList}
+                ${unplacedList}
+                <hr style="border-top: 1px solid #ddd; margin: 10px 0;">
+                <p><strong>إجمالي مساحة الألواح:</strong> ${stats.usedArea + stats.wasteArea} سم²</p>
+                <p><strong>المساحة المستخدمة:</strong> ${stats.usedArea} سم²</p>
+                <p><strong>المساحة المهدرة:</strong> ${stats.wasteArea} سم²</p>
+                <p><strong>نسبة الكفاءة:</strong> ${stats.efficiency}%</p>
+            `;
         }
         
         // تبديل بين الوضع التلقائي واليدوي
@@ -759,17 +1110,18 @@
         // إعادة تعيين التطبيق
         function resetApp() {
             pieces = [];
-            placedPieces = [];
+            boards = [];
             nextPieceId = 1;
             piecesContainer.innerHTML = '';
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            statsContent.innerHTML = '';
+            boardsContainer.innerHTML = '';
+            statsContent.innerHTML = '<p>سيتم عرض نتائج التخطيط هنا بعد الحساب</p>';
             selectedPiece = null;
             
-            // إضافة 3 قطع افتراضية
-            addPiece(60, 40);
-            addPiece(80, 30);
-            addPiece(50, 50);
+            // إعادة تعيين القيم الافتراضية
+            boardLengthInput.value = '283';
+            boardWidthInput.value = '123';
+            
+            
         }
         
         // حدث الزر الرئيسي
@@ -789,19 +1141,14 @@
                 return;
             }
             
-            if (isManualMode) {
-                // في الوضع اليدوي، نستخدم القطع الموجودة أو ننشئ تخطيطاً أولياً
-                if (placedPieces.length === 0) {
-                    placedPieces = calculateOptimalCut(boardLength, boardWidth, pieces);
-                }
-            } else {
-                // في الوضع التلقائي، نحسب تخطيط جديد
-                placedPieces = calculateOptimalCut(boardLength, boardWidth, pieces);
-            }
+            // حساب التخطيط الأمثل
+            const result = calculateOptimalCut(boardLength, boardWidth, pieces);
+            boards = result.boards;
             
-            drawCuttingPlan(boardLength, boardWidth, placedPieces);
+            // عرض الألواح والنتائج
+            displayBoards(boardLength, boardWidth, result);
             
-            const stats = calculateStats(boardLength, boardWidth, placedPieces);
+            const stats = calculateStats(boardLength, boardWidth, result);
             displayStats(stats);
         });
         
@@ -821,10 +1168,45 @@
         });
         
         // تهيئة التطبيق
-        window.addEventListener('resize', resizeCanvas);
-        setupManualMode();
-        resizeCanvas();
         resetApp();
+        
+        // أحداث لوحة المفاتيح للوضع اليدوي
+        document.addEventListener('keydown', function(e) {
+            if (!isManualMode || !selectedPiece) return;
+            
+            // البحث عن اللوح الذي يحتوي على القطعة المحددة
+            let boardIndex = -1;
+            for (let i = 0; i < boards.length; i++) {
+                if (boards[i].pieces.includes(selectedPiece)) {
+                    boardIndex = i;
+                    break;
+                }
+            }
+            
+            if (boardIndex === -1) return;
+            
+            const boardLength = parseInt(boardLengthInput.value);
+            const boardWidth = parseInt(boardWidthInput.value);
+            
+            switch(e.key) {
+                case 'ArrowUp':
+                    movePiece(selectedPiece, selectedPiece.x, Math.max(0, selectedPiece.y - 1), boardIndex);
+                    break;
+                case 'ArrowDown':
+                    movePiece(selectedPiece, selectedPiece.x, Math.min(boardWidth - selectedPiece.width, selectedPiece.y + 1), boardIndex);
+                    break;
+                case 'ArrowLeft':
+                    movePiece(selectedPiece, Math.max(0, selectedPiece.x - 1), selectedPiece.y, boardIndex);
+                    break;
+                case 'ArrowRight':
+                    movePiece(selectedPiece, Math.min(boardLength - selectedPiece.length, selectedPiece.x + 1), selectedPiece.y, boardIndex);
+                    break;
+                case 'r':
+                case 'R':
+                    rotatePiece(selectedPiece, boardIndex);
+                    break;
+            }
+        });
     </script>
 </body>
 </html>
