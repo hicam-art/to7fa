@@ -1,14 +1,94 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="">
+  <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تطبيق ت7فة قص الخشب المتقدم</title>
     <link rel="stylesheet" href="style.css">
+  
 </head>
-<body> 
-    <div class="container">
+<body>
+    <style>
+
+
+
+    .button-container {
+      margin: 20px;
+    }
+
+ 
+
+    
+    .page-container {
+       
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+      height: 90vh;
+      overflow: scroll;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .page {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      opacity: 0;
+      transition: all 0.5s ease;
+      padding: 20px;
+      box-sizing: border-box;
+     
+      margin-top: -5vh;
+    }
+
+    .page.active {
+      opacity: 1;
+      z-index: 2;
+    }
+
+    .slide-in-right {
+      right: -100%;
+    }
+
+    .slide-in-left {
+      right: 100%;
+    }
+
+    .slide-out-left {
+      right: -100%;
+      opacity: 0;
+      z-index: 1;
+    }
+
+    .slide-out-right {
+      right: 100%;
+      opacity: 0;
+      z-index: 1;
+    }
+
+    .page.show {
+      right: 0;
+    }
+
+
+</style>
+  <h2>قائمة الصفحات بتأثير إنزلاق ثنائي الاتجاه</h2>
+
+  <div class="button-container">
+    <button onclick="showPage(1)"> تطبيق ت7فة</button>
+    <button onclick="showPage(2)">الصفحة الثانية</button>
+    <button onclick="showPage(3)">الصفحة الثالثة</button>
+    <button onclick="showPage(4)">الصفحة الرابعة</button>
+  </div>
+
+  <div class="page-container">
+    <div id="page1" class="page active show">
+      <h3> </h3>
+      <div class="container">
 <button style="position: relative;" onclick="window.print()">🖨️ طباعة الصفحة</button>
  
 
@@ -936,5 +1016,60 @@
             }
         });
     </script>
+    </div>
+
+    <div id="page2" class="page">
+      <h3>الصفحة الثانية</h3>
+      <p>محتوى الصفحة الثانية هنا.</p>
+    </div>
+
+    <div id="page3" class="page">
+      <h3>الصفحة الثالثة</h3>
+      <p>محتوى الصفحة الثالثة هنا.</p>
+    </div>
+
+    <div id="page4" class="page">
+      <h3>الصفحة الرابعة</h3>
+      <p>محتوى الصفحة الرابعة هنا.</p>
+    </div>
+  </div>
+
+  <script>
+    let currentPage = 1;
+
+    function showPage(newPage) {
+      if (newPage === currentPage) return;
+
+      const current = document.getElementById('page' + currentPage);
+      const next = document.getElementById('page' + newPage);
+
+      // إزالة أي أصناف قديمة
+      current.classList.remove('slide-in-left', 'slide-in-right', 'show', 'active');
+      next.classList.remove('slide-in-left', 'slide-in-right', 'slide-out-left', 'slide-out-right', 'show');
+
+      // تحديد الاتجاه
+      const isForward = newPage > currentPage;
+
+      // إضافة صنف الخروج للصفحة الحالية
+      current.classList.add(isForward ? 'slide-out-left' : 'slide-out-right');
+
+      // إعداد الصفحة التالية للانزلاق من الاتجاه الصحيح
+      next.classList.add('page', isForward ? 'slide-in-right' : 'slide-in-left', 'active');
+
+      // تأخير طفيف للسماح بالتحريك
+      setTimeout(() => {
+        next.classList.add('show');
+      }, 10);
+
+      // بعد انتهاء الحركة، تنظيف الصفحة السابقة
+      setTimeout(() => {
+        current.classList.remove('slide-out-left', 'slide-out-right', 'active');
+        current.classList.remove('show');
+      }, 500);
+
+      currentPage = newPage;
+    }
+  </script>
+
 </body>
 </html>
